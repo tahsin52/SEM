@@ -16,14 +16,14 @@ $ python manage.py runserver
 # First Of All
 
 ```bash
-    GET  api/get_data/ verilen linkteki verileri çeker ve json dosyasına yazar ve gösterir (1-3 min)
-    POST api/data/ verileri database e kaydeder sadece post isteği atmak yeterli
-    GET  api/data/ verileri listeler ve gösterir
+    GET  /api/get_data/ verilen linkteki verileri çeker ve json dosyasına yazar ve gösterir (1-3 min)
+    POST /api/data/ verileri database e kaydeder sadece post isteği atmak yeterli
+    GET  /api/data/ verileri listeler ve gösterir
 ```
 ```bash
     query parametreleri
-    ?make ?model= , ?year= , ?exterior_color= , ?make= , ?count= , ?transmission= 
+    GET /api/data/?make ?model= , ?year= , ?exterior_color= , ?make= , ?count= , ?transmission= 
     
     çoklu query
-    ?make=BMW&model=X6&year=2022&exterior_color=Black&transmission=Automatic
+    GETT /api/data/?make=BMW&model=X6&year=2022&exterior_color=Black&transmission=Automatic
 ```
