@@ -1,3 +1,5 @@
+import random
+
 from django.http import HttpResponse
 from django.views.decorators.cache import cache_page
 from django.views.decorators.csrf import csrf_exempt
@@ -22,7 +24,7 @@ def get_car_data(request):
         if i == 0:
             g_url = 'https://www.cars.com/shopping/results/'
         else:
-            g_url = 'https://www.cars.com/shopping/results/' + '?page=' + str(i + 1)
+            g_url = 'https://www.cars.com/shopping/results/' + '?page=' + str(i)
 
         page = requests.get(str(g_url))
         soup = BeautifulSoup(page.content, 'html.parser')
@@ -30,14 +32,13 @@ def get_car_data(request):
 
         if request.method == 'GET':
             for i in range(len(json.loads(data)['vehicleArray'])):
-                try:
-                    page2 = requests.get(
-                        'https://www.cars.com/vehicledetail/' + str(json.loads(data)['vehicleArray'][i]['listing_id']))
-                    soup2 = BeautifulSoup(page2.content, 'html.parser')
+                page2 = requests.get(
+                    'https://www.cars.com/vehicledetail/' + str(json.loads(data)['vehicleArray'][i]['listing_id']))
+                soup2 = BeautifulSoup(page2.content, 'html.parser')
+                if soup2.find_all('dd')[5].text:
                     transmission = soup2.find_all('dd')[5].text
-                except IndexError:
-                    continue
-
+                else:
+                    transmission = None
                 a = {
                     'bodystyle': json.loads(data)['vehicleArray'][i]['bodystyle'],
                     'canonical_mmt': json.loads(data)['vehicleArray'][i]['canonical_mmt'],
@@ -152,5 +153,5 @@ class CarViewSet(viewsets.ModelViewSet):
             }
             response_data.append(all_data)
 
-        return Response({'count': queryset.count(), 'result': self.paginate_queryset(response_data)}, status=status.HTTP_200_OK)
+        return Response({'count': queryset.count(), 'result': random.choices(response_data, k=50)}, status=status.HTTP_200_OK)
         # return Response({'count': queryset.count(), 'result': (response_data[:50])}, status=status.HTTP_200_OK)
