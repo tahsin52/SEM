@@ -25,5 +25,5 @@ $ python manage.py runserver
     GET /api/data/?make ?model= , ?year= , ?exterior_color= , ?make= , ?count= , ?transmission= 
     
     çoklu query
-    GETT /api/data/?make=BMW&model=X6&year=2022&exterior_color=Black&transmission=Automatic
+    GET /api/data/?make=BMW&model=X6&year=2022&exterior_color=Black&transmission=Automatic
 ```
